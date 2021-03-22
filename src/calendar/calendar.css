@@ -1,0 +1,55 @@
+.Calendar {
+    border-collapse: collapse;
+    padding: 0;
+    margin: 25px auto;
+}
+
+.Calendar th,
+.Calendar td {
+    padding: 1rem;
+    text-align: center;
+}
+
+.Day:hover {
+    background: #eee;
+    color: #000;
+}
+
+.Day.today {
+    background: #fff8dd;
+    color: #000;
+}
+.Day.weekend .Day-inner {
+    color: #ff0000 !important;
+}
+
+.Day.selected {
+    background: #51a0d4;
+    
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+}
+.Day.selected .Day-inner{
+    color: #fff !important;
+}
+
+.Day.other-month {
+    background: #fafafa;
+    color: #aaa;
+}
+.nav-inner {
+    overflow: visible;
+    text-transform: none;
+    cursor: pointer;
+    border: 0;
+    background: transparent;
+    font-size: 20px;
+}
+.days-header{
+    margin-top: 2px;
+    background-color: #ddd;
+}
+a:-webkit-any-link{
+    color: #706e6e;
+}

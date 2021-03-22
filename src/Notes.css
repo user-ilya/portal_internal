@@ -1,0 +1,15 @@
+.wrapper_for_blocks{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+
+}
+.left_blocks{
+    padding: 45px 0px 0px 15px;
+    width: 40%;
+}
+.right_blocks {
+    background-color: #ddd;
+    border-radius: 10px;
+    width: 40%;
+}

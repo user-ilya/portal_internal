@@ -1,0 +1,14 @@
+.btnEvent {
+    width: 200px;
+    height: 60px;
+    border: 1px solid #747474;
+    box-shadow: 2px 2px 3px #7e7e7e;
+    background: #C4C4C4;
+    font-size: 18px;
+    font-weight: 500;  
+}
+.btnMain{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
