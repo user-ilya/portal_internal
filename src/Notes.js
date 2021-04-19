@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import Header from './header';
 import moment from 'moment';
 import Calendar from './calendar/Calendar';
-import EventBtn from './btnEvent';
+
 import Event from './Event';
 import './Notes.css';
-import Modal from './Modal';
+import './style/btn.css';
+import './Modal/modal.css';
+
 
 const customDayRenderer = ({ handleClick, date }) => {
   return (
@@ -20,7 +22,80 @@ const customDayRenderer = ({ handleClick, date }) => {
 };
 
 
+class Modal extends Component {
+
+   close (e) {
+    e.preventDefault()
+
+    if (this.props.isClose) {
+      this.props.isClose()
+    }
+  } 
+  
+  render() {
+    if (this.props.isOpen === false) {return null}; 
+
+
+     if (this.props.isOpen) {return (
+          <>
+              <form action='#' id='modalWindow'  className='modal_active'>
+                  <div className='close' >
+                    <span className='spanTop'></span>
+                    <span className='spanBottom'></span>
+                  </div>
+                  <h3 className='modalHeader'>Создание события</h3>
+                  <div className='modalText'><input type='text' required placeholder='Введите навзвание события' id='modalEventName'  className='modalEventText'/></div>
+                  <div className='modalDate'>
+                      <p>Время события:</p>
+                      <input type='time' required className='modalTime'/>
+                  </div>
+                  <div className='modalNotice'>
+                      <p>Уведомление: </p>
+                      <input type='time' required className='modalTime modalTime_w'/>
+                      <input type='email' required autoComplete='true' className='modalEmail' placeholder='Введите e-mail'/>
+                  </div>
+                  <div className='navBtn'>
+                    <button 
+                        className='btnEvent eventBtn_m' 
+                        type='submit'
+                        >Добавить событие</button>
+                      <button 
+                        className='btnEvent eventBtn_m' 
+                        type='button'
+                        onClick={e => this.close(e)}
+                      >Закрыть</button>
+                  </div>
+              </form>
+          <div id='semi-opacity_active'></div>
+          </>
+          
+          
+      )
+    }
+  }
+} 
+export {Modal}
+
+
 class Notes extends Component {
+
+  constructor(props) {
+    super(props)
+        this.state = {
+            isModalActive: false
+        }
+  }
+  openModal() {
+      this.setState({
+          isModalActive: true
+      })
+  }
+   closeModal() {
+      this.setState({
+          isModalActive: false
+      })
+  } 
+
   onSelect(date, previousDate, currentMonth) {
     if (moment(date).isSame(previousDate)) {
       console.info('onSelect: false', date);
@@ -44,17 +119,23 @@ class Notes extends Component {
 
     return (
       <div className='wrapper'>
-        <Header/>
+        <Header name='ILya Kuzmin'/>
         <div className='wrapper_for_blocks'>
           <div className='left_blocks'>
-            <EventBtn/>
+          <div className='btnMain'>
+              <button 
+                type = 'button'
+                onClick= {()=> this.openModal()} 
+                className='btnEvent'>Добавить событие
+              </button>
+            </div>
             <Calendar onSelect={this.onSelect} dayRenderer={customDayRenderer} dayClasses={dayClasses}/>
           </div>
           <div className='right_blocks'>
             <Event/>
           </div>
         </div>
-        <Modal/>
+        <Modal isOpen={this.state.isModalActive} isClose={() => {this.closeModal()}}/>
     </div>
     );
   }

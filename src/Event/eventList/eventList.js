@@ -1,13 +1,13 @@
 import React from 'react';
 import './eventList.css';
 
-const EventList = () => {
+const EventList = ({eventToday = 'У вас еще нет запланированных событий', time = ''}) => {
     
 
     return (
         <div className='eventListItem'>
-            <p className='eventText'>Текущее событие дня</p>
-            <p className='eventTime'>Время</p>
+            <p className='eventText'>{eventToday}</p>
+            <p className='eventTime'>{time}</p>
         </div>
     )
 }

@@ -7,11 +7,15 @@
 }
 .modal_active{
     display: block;
-    position: absolute;
-    top: 50%;
-    left: 30%;
-    transform: translateY(-50%);
+    position: fixed;
+    top: 0;
+    left: 50%;
+    padding: 20px;
+    transform: translate(-50%, 50%);
     z-index: 2;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    background-color: #c2c0c0
 }
 .modalHeader {
     text-align: center;
@@ -75,6 +79,9 @@
     padding: 10px;
     outline: none;
 }
+.eventBtn_m:first-child{
+    margin-right: 20px;
+}
 .eventBtn_m:hover{
     background-color:#919191;
     transition: 0.6s all;
@@ -83,11 +90,11 @@
 #semi_opacity{
     display: none;
 }
-.semi-opacity_active{
+#semi-opacity_active{
     display: block !important;
     position: fixed;
     background-color:#ececec;
-    opacity: 0.6;
+    opacity: 0.95;
     top: 0;
     width: 100%;
     height: 100%;
