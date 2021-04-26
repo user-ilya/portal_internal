@@ -33,6 +33,9 @@ class Modal extends Component {
   } 
   
   render() {
+
+    const {onAdd} = this.props
+
     if (this.props.isOpen === false) {return null}; 
 
 
@@ -58,6 +61,7 @@ class Modal extends Component {
                     <button 
                         className='btnEvent eventBtn_m' 
                         type='submit'
+                        onClick= {() => onAdd('Hello')}
                         >Добавить событие</button>
                       <button 
                         className='btnEvent eventBtn_m' 
@@ -78,13 +82,21 @@ export {Modal}
 
 
 class Notes extends Component {
-
   constructor(props) {
     super(props)
         this.state = {
-            isModalActive: false
+            isModalActive: false,
+            data: [
+              {eventToday: 'Покушать', time: '13:40', id: 1},
+              {eventToday: 'Убраться', time: '09:40', id: 2},
+              {eventToday: undefined , time: undefined, id: 3}
+            ]
         }
+        this.onDeleted = this.onDeleted.bind(this)
+        this.onAdd = this.onAdd.bind(this)
+        this.maxId = 4
   }
+
   openModal() {
       this.setState({
           isModalActive: true
@@ -95,6 +107,31 @@ class Notes extends Component {
           isModalActive: false
       })
   } 
+
+  onDeleted(id) {
+    this.setState(({data}) => {
+      const index = data.findIndex((elem) => elem.id === id)
+
+      const newData = [...data.slice(0, index), ...data.slice(index + 1)]
+      return {
+        data: newData
+      }
+    })
+  }
+
+  onAdd(body, time) {
+    const newItem = {
+      eventToday: body,
+      time: undefined,
+      id: this.maxId++
+    }
+    this.setState(({data}) => {
+      const newData = [...data, newItem]
+      return {
+        data: newData
+      }
+    })
+  }
 
   onSelect(date, previousDate, currentMonth) {
     if (moment(date).isSame(previousDate)) {
@@ -115,7 +152,7 @@ class Notes extends Component {
         return ['weekend'];
       }
       return [];
-    };  
+    }; 
 
     return (
       <div className='wrapper'>
@@ -132,10 +169,14 @@ class Notes extends Component {
             <Calendar onSelect={this.onSelect} dayRenderer={customDayRenderer} dayClasses={dayClasses}/>
           </div>
           <div className='right_blocks'>
-            <Event/>
+            <Event 
+              eventData={this.state.data} 
+              onClose = {this.onDeleted} 
+              isOpen={this.state.isModalActive} 
+               />
           </div>
         </div>
-        <Modal isOpen={this.state.isModalActive} isClose={() => {this.closeModal()}}/>
+        <Modal onAdd = {this.onAdd} isOpen={this.state.isModalActive} isClose={() => {this.closeModal()}}/>
     </div>
     );
   }

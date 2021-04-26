@@ -11,3 +11,18 @@
     font-weight: 500;
     font-size: 18px;
 }
+.btn_navItem{
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 5px;
+    margin: 0 5px;
+}
+.btn_close {
+    color: #ff0000;
+}
+.event_label{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
