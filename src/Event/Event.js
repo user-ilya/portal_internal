@@ -3,7 +3,7 @@ import EventList from './eventList';
 import './Event.css';
 
 
-const Event = ({eventData, onClose, isOpen}) => {
+const Event = ({eventData, onClose, isOpen, time}) => {
     const dataElements = eventData.map((item) => {
         const {id, ...itemProps} = item
         return (

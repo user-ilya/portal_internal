@@ -23,45 +23,118 @@ const customDayRenderer = ({ handleClick, date }) => {
 
 
 class Modal extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+        text: '',
+        time: '',
+        notice: '',
+        email: ''
+    }
+    this.onValueTime = this.onValueTime.bind(this)
+    this.onValueText = this.onValueText.bind(this)
+    this.onValueNotice = this.onValueNotice.bind(this)
+    this.onValueEmail = this.onValueEmail.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
+  }
 
-   close (e) {
+  onValueText (event) {
+    this.setState({
+      text: event.target.value
+    })
+  }
+  onValueTime (event) {
+    this.setState({
+      time: event.target.value
+    })
+  } 
+  onValueNotice (event) {
+    this.setState({
+      notice: event.target.value
+    })
+  }
+  onValueEmail (event) {
+    this.setState({
+      email: event.target.value
+    })
+  } 
+
+  close (e) {
     e.preventDefault()
 
     if (this.props.isClose) {
       this.props.isClose()
     }
   } 
+
+  onSubmit(event) {
+    event.preventDefault()
+    this.props.onAdd(this.state.text, this.state.time, this.state.email, this.state.time, this.state.notice)
+    this.setState({
+      text: '', 
+      time: '',
+      notice: '',
+      email: ''
+    })
+  }
   
   render() {
-
-    const {onAdd} = this.props
 
     if (this.props.isOpen === false) {return null}; 
 
 
      if (this.props.isOpen) {return (
           <>
-              <form action='#' id='modalWindow'  className='modal_active'>
-                  <div className='close' >
+              <form action='#' id='modalWindow' onSubmit = {this.onSubmit}  className='modal_active'>
+                  {/* <div className='close' >
                     <span className='spanTop'></span>
                     <span className='spanBottom'></span>
-                  </div>
+                  </div> */}
                   <h3 className='modalHeader'>Создание события</h3>
-                  <div className='modalText'><input type='text' required placeholder='Введите навзвание события' id='modalEventName'  className='modalEventText'/></div>
+                  <div className='modalText'>
+                    <input 
+                      type='text' 
+                      required 
+                      placeholder='Введите название события' 
+                      id='modalEventName'  
+                      className='modalEventText'
+                      onChange = {this.onValueText}
+                      value={this.state.text}
+                    />
+                  </div>
                   <div className='modalDate'>
                       <p>Время события:</p>
-                      <input type='time' required className='modalTime'/>
+                      <input 
+                        type='time' 
+                        required 
+                        className='modalTime'
+                        onChange = {this.onValueTime}
+                        value = {this.state.time}
+                      />
                   </div>
                   <div className='modalNotice'>
                       <p>Уведомление: </p>
-                      <input type='time' required className='modalTime modalTime_w'/>
-                      <input type='email' required autoComplete='true' className='modalEmail' placeholder='Введите e-mail'/>
+                      <input 
+                        type='time' 
+                        required 
+                        className='modalTime modalTime_w'
+                        onChange = {this.onValueNotice}
+                        value= {this.state.notice}
+                      />
+                      <input 
+                        type='email' 
+                        required 
+                        autoComplete='true' 
+                        className='modalEmail'
+                        placeholder='Введите e-mail'
+                        onChange = {this.onValueEmail}
+                        value={this.state.email}
+                      />
                   </div>
                   <div className='navBtn'>
                     <button 
                         className='btnEvent eventBtn_m' 
                         type='submit'
-                        onClick= {() => onAdd('Hello')}
                         >Добавить событие</button>
                       <button 
                         className='btnEvent eventBtn_m' 
@@ -72,8 +145,6 @@ class Modal extends Component {
               </form>
           <div id='semi-opacity_active'></div>
           </>
-          
-          
       )
     }
   }
@@ -95,14 +166,14 @@ class Notes extends Component {
         this.onDeleted = this.onDeleted.bind(this)
         this.onAdd = this.onAdd.bind(this)
         this.maxId = 4
-  }
-
+        } 
+  
   openModal() {
-      this.setState({
-          isModalActive: true
-      })
+    this.setState({
+        isModalActive: true
+    })
   }
-   closeModal() {
+  closeModal() {
       this.setState({
           isModalActive: false
       })
@@ -122,7 +193,7 @@ class Notes extends Component {
   onAdd(body, time) {
     const newItem = {
       eventToday: body,
-      time: undefined,
+      time: time,
       id: this.maxId++
     }
     this.setState(({data}) => {
@@ -154,9 +225,14 @@ class Notes extends Component {
       return [];
     }; 
 
+    if (this.state.data.length === 0) {
+      this.setState({
+        data: [{eventToday: undefined , time: undefined, id: 'dfgdg'}]
+      })
+    } 
     return (
       <div className='wrapper'>
-        <Header name='ILya Kuzmin'/>
+        <Header name='Ilya Kuzmin'/>
         <div className='wrapper_for_blocks'>
           <div className='left_blocks'>
           <div className='btnMain'>
@@ -170,10 +246,10 @@ class Notes extends Component {
           </div>
           <div className='right_blocks'>
             <Event 
-              eventData={this.state.data} 
+              eventData={this.state.data}
               onClose = {this.onDeleted} 
-              isOpen={this.state.isModalActive} 
-               />
+              isOpen={() => {this.openModal()}} 
+              />
           </div>
         </div>
         <Modal onAdd = {this.onAdd} isOpen={this.state.isModalActive} isClose={() => {this.closeModal()}}/>

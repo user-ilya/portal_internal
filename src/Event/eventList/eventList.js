@@ -21,16 +21,18 @@ export default class EventList extends Component {
                     <p className='eventTime'>{time}</p>
                 </div>
                 <div className='navItem'>
-                    <button className='btn_navItem'
-                        onClick={isOpen}>
-                        <i class="fa fa-pencil fa-3" aria-hidden="true"></i>
+                    <button 
+                        className='btn_navItem'
+                        onClick={isOpen}
+                        >
+                        <i className="fa fa-pencil fa-3" aria-hidden="true"></i>
                     </button>
                     <button 
                         className='btn_navItem btn_close'
                         onClick = {onClose}>
-                            <i class="fa fa-times fa-3" aria-hidden="true"></i></button>
+                        <i className="fa fa-times fa-3" aria-hidden="true"></i>
+                    </button>
                 </div>
-
             </div>
         )
     }
